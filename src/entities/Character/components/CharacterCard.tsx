@@ -19,7 +19,7 @@ const CharacterCard: FC<CharacterCardProps> = ({ character }) => {
             bg={useColorModeValue('gray.100', 'gray.600')}
             direction={['column', 'row']}
             overflow='hidden'
-            width={['100%', null, '600px']}
+            width={['100%', null, '550px']}
             height={['auto', '220px']}>
             <Image objectFit='cover' height='220px' aspectRatio={1} src={character.image} alt={character.name} />
             <CardBody p={4}>
