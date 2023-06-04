@@ -17,6 +17,6 @@ export const getCharacters = (async (params: PaginationParams<Filters> | string)
     return (await api.get<PaginationResponse<Character>>('/character/', { params })).data;
 }) as GetCharacters;
 
-export const getCharacter = async (id: Character['id']) => {
+export const getCharacter = async (id: string) => {
     return (await api.get<Character>(`/character/${id}`)).data;
 };
