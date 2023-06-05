@@ -6,7 +6,7 @@ import { Box, Container, Flex, HStack, IconButton, Link, useColorMode } from '@c
 import NextLink from 'next/link';
 import { FC } from 'react';
 
-import { CHARACTER_ROUTE, HOME_ROUTE, LOCATION_ROUTE } from '@/constants';
+import { CHARACTER_ROUTE, EPISODE_ROUTE, HOME_ROUTE, LOCATION_ROUTE } from '@/constants';
 
 import Logo from './icon.svg';
 
@@ -32,6 +32,9 @@ const Header: FC = () => {
                         </Link>
                         <Link as={NextLink} href={LOCATION_ROUTE}>
                             Locations
+                        </Link>
+                        <Link as={NextLink} href={EPISODE_ROUTE}>
+                            Episodes
                         </Link>
                     </HStack>
                     <IconButton

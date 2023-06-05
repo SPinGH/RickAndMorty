@@ -5,23 +5,23 @@ import { FC } from 'react';
 
 import { getCharacters } from '@/entities/Character';
 import { CharacterCard } from '@/entities/Character/components';
-import { getLocation, Location } from '@/entities/Location';
+import { Episode, getEpisode } from '@/entities/Episode';
 import { getIdsFromUrls } from '@/shared/lib';
 
-interface LocationPageProps {
-    location: Location;
+interface EpisodePageProps {
+    episode: Episode;
 }
 
-const LocationPage: FC<LocationPageProps> = ({ location }) => {
+const EpisodePage: FC<EpisodePageProps> = ({ episode }) => {
     const { data } = useQuery({
-        queryKey: ['location', location.id],
-        queryFn: () => getLocation(location.id.toString()),
-        initialData: location,
+        queryKey: ['episode', episode.id],
+        queryFn: () => getEpisode(episode.id.toString()),
+        initialData: episode,
     });
-    const { data: residents, isLoading: residentsIsLoading } = useQuery({
-        queryKey: ['residents', location.id],
-        queryFn: () => getCharacters(getIdsFromUrls(location.residents)),
-        enabled: data && data.residents.length !== 0,
+    const { data: characters, isLoading: charactersIsLoading } = useQuery({
+        queryKey: ['episodeCharacters', episode.id],
+        queryFn: () => getCharacters(getIdsFromUrls(episode.characters)),
+        enabled: data && data.characters.length !== 0,
     });
 
     return (
@@ -33,21 +33,21 @@ const LocationPage: FC<LocationPageProps> = ({ location }) => {
                     </Heading>
                     <SimpleGrid fontSize='xl' templateColumns='auto 1fr' spacing={8}>
                         <List fontWeight='semibold' spacing={2}>
-                            <ListItem>Type</ListItem>
-                            <ListItem>Dimension</ListItem>
+                            <ListItem>Code</ListItem>
+                            <ListItem>Air date</ListItem>
                         </List>
                         <List spacing={2}>
-                            <ListItem>{data.type}</ListItem>
-                            <ListItem>{data.dimension}</ListItem>
+                            <ListItem>{data.episode}</ListItem>
+                            <ListItem>{data.air_date}</ListItem>
                         </List>
                     </SimpleGrid>
                 </Stack>
-                {data.residents.length !== 0 && (
+                {data.characters.length !== 0 && (
                     <>
-                        <Heading size='xl'>Residents</Heading>
-                        {residentsIsLoading && <Spinner />}
+                        <Heading size='xl'>Characters</Heading>
+                        {charactersIsLoading && <Spinner />}
                         <Flex pb={[4, 6, 8]} gap={6} wrap='wrap' justifyContent='center'>
-                            {residents?.map((character) => (
+                            {characters?.map((character) => (
                                 <CharacterCard key={character.id} character={character} />
                             ))}
                         </Flex>
@@ -58,4 +58,4 @@ const LocationPage: FC<LocationPageProps> = ({ location }) => {
     );
 };
 
-export default LocationPage;
+export default EpisodePage;
