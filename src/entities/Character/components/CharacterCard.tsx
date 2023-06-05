@@ -25,7 +25,7 @@ const CharacterCard: FC<CharacterCardProps> = ({ character }) => {
             <CardBody p={4}>
                 <Stack>
                     <Box>
-                        <Heading size='lg'>
+                        <Heading as='p' size='lg'>
                             <Link as={NextLink} href={`${CHARACTER_ROUTE}/${character.id}`} noOfLines={1}>
                                 {character.name}
                             </Link>

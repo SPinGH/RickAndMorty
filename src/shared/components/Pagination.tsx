@@ -2,10 +2,8 @@
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Button, Flex, IconButton, Text } from '@chakra-ui/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC, MouseEvent } from 'react';
-
-import { CHARACTERS_ROUTE } from '@/constants';
 
 import { objToSearchParams } from '../lib';
 import { PaginationResponse } from '../model';
@@ -24,12 +22,13 @@ const getButtons = (page: number, lastPage: number) => {
 const Pagination: FC<PaginationProps> = ({ page, info }) => {
     const router = useRouter();
     const params = useSearchParams();
+    const pathname = usePathname();
 
     if (info.pages === 1) return null;
 
     const setPage = (page: string) => {
         router.push(
-            `${CHARACTERS_ROUTE}?${objToSearchParams({
+            `${pathname}?${objToSearchParams({
                 ...Object.fromEntries(params.entries()),
                 page: page,
             })}`
