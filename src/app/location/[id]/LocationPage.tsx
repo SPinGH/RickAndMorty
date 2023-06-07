@@ -1,4 +1,5 @@
 'use client';
+
 import { Container, Flex, Heading, List, ListItem, SimpleGrid, Spinner, Stack } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
@@ -12,16 +13,16 @@ interface LocationPageProps {
     location: Location;
 }
 
-const LocationPage: FC<LocationPageProps> = ({ location }) => {
-    const { data } = useQuery({
-        queryKey: ['location', location.id],
-        queryFn: () => getLocation(location.id.toString()),
-        initialData: location,
+const LocationPage: FC<LocationPageProps> = (props) => {
+    const { data: location } = useQuery({
+        queryKey: ['location', props.location.id],
+        queryFn: () => getLocation(props.location.id.toString()),
+        initialData: props.location,
     });
     const { data: residents, isLoading: residentsIsLoading } = useQuery({
-        queryKey: ['residents', location.id],
+        queryKey: ['locationResidents', location.id],
         queryFn: () => getCharacters(getIdsFromUrls(location.residents)),
-        enabled: data && data.residents.length !== 0,
+        enabled: location && location.residents.length !== 0,
     });
 
     return (
@@ -29,7 +30,7 @@ const LocationPage: FC<LocationPageProps> = ({ location }) => {
             <Stack spacing={8}>
                 <Stack spacing={8}>
                     <Heading as='h1' size='4xl'>
-                        {data.name}
+                        {location.name}
                     </Heading>
                     <SimpleGrid fontSize='xl' templateColumns='auto 1fr' spacing={8}>
                         <List fontWeight='semibold' spacing={2}>
@@ -37,12 +38,12 @@ const LocationPage: FC<LocationPageProps> = ({ location }) => {
                             <ListItem>Dimension</ListItem>
                         </List>
                         <List spacing={2}>
-                            <ListItem>{data.type}</ListItem>
-                            <ListItem>{data.dimension}</ListItem>
+                            <ListItem>{location.type}</ListItem>
+                            <ListItem>{location.dimension}</ListItem>
                         </List>
                     </SimpleGrid>
                 </Stack>
-                {data.residents.length !== 0 && (
+                {location.residents.length !== 0 && (
                     <>
                         <Heading size='xl'>Residents</Heading>
                         {residentsIsLoading && <Spinner />}

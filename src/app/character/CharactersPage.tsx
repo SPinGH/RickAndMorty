@@ -1,4 +1,5 @@
 'use client';
+
 import { Box, Container, Flex } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
@@ -10,12 +11,12 @@ import { PaginationParams, PaginationResponse } from '@/shared/model';
 
 import Filters from './Filters';
 
-interface CharactersProps {
+interface CharactersPageProps {
     params: PaginationParams<FiltersType>;
     data: PaginationResponse<Character>;
 }
 
-const CharactersPage: FC<CharactersProps> = (props) => {
+const CharactersPage: FC<CharactersPageProps> = (props) => {
     const { data } = useQuery({
         queryKey: ['characters', props.params],
         queryFn: () => getCharacters(props.params),

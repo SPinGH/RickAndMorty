@@ -4,7 +4,7 @@ import { PaginationParams } from '@/shared/model';
 import EpisodesPage from './EpisodesPage';
 
 interface PageProps {
-    searchParams: PaginationParams<{}>;
+    searchParams: PaginationParams;
 }
 
 const Page = async ({ searchParams }: PageProps) => {

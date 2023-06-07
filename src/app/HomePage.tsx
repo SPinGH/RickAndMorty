@@ -7,7 +7,7 @@ import { Character } from '@/entities/Character';
 import { CharacterCard } from '@/entities/Character/components';
 
 interface HomePageProps {
-    characters?: Character[];
+    characters: Character[];
 }
 
 const HomePage: FC<HomePageProps> = ({ characters }) => {
@@ -25,7 +25,7 @@ const HomePage: FC<HomePageProps> = ({ characters }) => {
                 gap={6}
                 wrap='wrap'
                 justifyContent='center'>
-                {characters?.map((character) => (
+                {characters.map((character) => (
                     <CharacterCard key={character.id} character={character} />
                 ))}
             </Flex>

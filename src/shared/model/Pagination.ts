@@ -6,6 +6,6 @@ export interface PaginationResponse<T> {
     };
 }
 
-export type PaginationParams<T extends {}> = T & {
+export type PaginationParams<T = {}> = T & {
     page?: number;
 };

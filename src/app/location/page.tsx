@@ -4,7 +4,7 @@ import { PaginationParams } from '@/shared/model';
 import LocationsPage from './LocationsPage';
 
 interface PageProps {
-    searchParams: PaginationParams<{}>;
+    searchParams: PaginationParams;
 }
 
 const Page = async ({ searchParams }: PageProps) => {

@@ -1,4 +1,5 @@
 'use client';
+
 import { HStack, Select, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FC } from 'react';
@@ -12,11 +13,12 @@ interface FiltersProps {
     params: PaginationParams<FiltersType>;
 }
 
-const FiltersType: FC<FiltersProps> = ({ params }) => {
+const Filters: FC<FiltersProps> = ({ params }) => {
     const router = useRouter();
-    const setFilters = (filter: Record<string, string>) => {
+
+    const setFilters = (filter: Record<string, string>) =>
         router.push(`${CHARACTER_ROUTE}?${objToSearchParams({ ...params, page: 1, ...filter })}`);
-    };
+
     const onStatusChange = (event: ChangeEvent<HTMLSelectElement>) => setFilters({ status: event.currentTarget.value });
     const onGenderChange = (event: ChangeEvent<HTMLSelectElement>) => setFilters({ gender: event.currentTarget.value });
 
@@ -43,4 +45,4 @@ const FiltersType: FC<FiltersProps> = ({ params }) => {
     );
 };
 
-export default FiltersType;
+export default Filters;
