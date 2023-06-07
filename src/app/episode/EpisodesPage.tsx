@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Container, Flex } from '@chakra-ui/react';
+import { Box, Container, Flex, List, ListItem, SimpleGrid, Stack } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
 
@@ -24,11 +24,13 @@ const EpisodesPage: FC<EpisodesPageProps> = (props) => {
     return (
         <Box as='main' mb={8}>
             <Container maxW='container.xl'>
-                <Flex pb={[4, 6, 8]} wrap='wrap' gap={4}>
+                <Stack as={List} pb={[4, 6, 8]}>
                     {data.results?.map((episode) => (
-                        <EpisodeCard key={episode.id} episode={episode} />
+                        <ListItem key={episode.id}>
+                            <EpisodeCard episode={episode} />
+                        </ListItem>
                     ))}
-                </Flex>
+                </Stack>
                 <Pagination page={Number(props.params.page ?? '1')} info={data.info} />
             </Container>
         </Box>

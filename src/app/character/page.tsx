@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 import { Filters, getCharacters } from '@/entities/Character';
 import { PaginationParams } from '@/shared/model';
 
@@ -8,7 +10,7 @@ interface PageProps {
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-    const data = await getCharacters(searchParams);
+    const data = await getCharacters(searchParams).catch(notFound);
 
     return <CharactersPage data={data} params={searchParams} />;
 };

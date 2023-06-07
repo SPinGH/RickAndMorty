@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 import { getLocation } from '@/entities/Location';
 
 import LocationPage from './LocationPage';
@@ -7,7 +9,7 @@ interface PageProps {
 }
 
 const Page = async ({ params: { id } }: PageProps) => {
-    const location = await getLocation(id);
+    const location = await getLocation(id).catch(notFound);
 
     return <LocationPage location={location} />;
 };

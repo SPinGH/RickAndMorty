@@ -17,10 +17,12 @@ const EpisodeCard: FC<EpisodeCardProps> = ({ episode }) => {
             <CardBody>
                 <Heading as='p' size='md'>
                     <LinkOverlay as={NextLink} href={`${EPISODE_ROUTE}/${episode.id}`}>
-                        {episode.episode} ({episode.name})
+                        {episode.name}
                     </LinkOverlay>
                 </Heading>
-                <Text>{episode.air_date}</Text>
+                <Text>
+                    {episode.episode} ({episode.air_date})
+                </Text>
             </CardBody>
         </LinkBox>
     );

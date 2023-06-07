@@ -7,6 +7,6 @@ export const getStatusColor = (status: Character['status']) => {
         case 'Dead':
             return 'red.400';
         default:
-            return 'grey.400';
+            return 'gray.400';
     }
 };

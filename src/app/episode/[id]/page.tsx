@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 import { getEpisode } from '@/entities/Episode';
 
 import EpisodePage from './EpisodePage';
@@ -7,7 +9,7 @@ interface PageProps {
 }
 
 const Page = async ({ params: { id } }: PageProps) => {
-    const episode = await getEpisode(id);
+    const episode = await getEpisode(id).catch(notFound);
 
     return <EpisodePage episode={episode} />;
 };

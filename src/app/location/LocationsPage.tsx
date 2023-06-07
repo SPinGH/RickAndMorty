@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Container, Flex } from '@chakra-ui/react';
+import { Box, Container, List, ListItem, Stack } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
 
@@ -24,11 +24,13 @@ const LocationsPage: FC<LocationsPageProps> = (props) => {
     return (
         <Box as='main' mb={8}>
             <Container maxW='container.xl'>
-                <Flex pb={[4, 6, 8]} wrap='wrap' gap={4}>
+                <Stack as={List} pb={[4, 6, 8]}>
                     {data.results?.map((location) => (
-                        <LocationCard key={location.id} location={location} />
+                        <ListItem key={location.id}>
+                            <LocationCard location={location} />
+                        </ListItem>
                     ))}
-                </Flex>
+                </Stack>
                 <Pagination page={Number(props.params.page ?? '1')} info={data.info} />
             </Container>
         </Box>

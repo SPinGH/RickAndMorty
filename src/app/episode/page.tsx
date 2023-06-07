@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 import { getEpisodes } from '@/entities/Episode';
 import { PaginationParams } from '@/shared/model';
 
@@ -8,7 +10,7 @@ interface PageProps {
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-    const data = await getEpisodes(searchParams);
+    const data = await getEpisodes(searchParams).catch(notFound);
 
     return <EpisodesPage data={data} params={searchParams} />;
 };

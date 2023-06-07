@@ -1,11 +1,11 @@
 'use client';
 
-import { Container, Flex, Heading, List, ListItem, SimpleGrid, Spinner, Stack } from '@chakra-ui/react';
+import { Container, Flex, Heading, List, ListItem, SimpleGrid, Stack } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
 
 import { getCharacters } from '@/entities/Character';
-import { CharacterCard } from '@/entities/Character/components';
+import { CharacterCard, CharacterCardSkeleton } from '@/entities/Character/components';
 import { Episode, getEpisode } from '@/entities/Episode';
 import { getIdsFromUrls } from '@/shared/lib';
 
@@ -46,8 +46,12 @@ const EpisodePage: FC<EpisodePageProps> = (props) => {
                 {episode.characters.length !== 0 && (
                     <>
                         <Heading size='xl'>Characters</Heading>
-                        {charactersIsLoading && <Spinner />}
                         <Flex pb={[4, 6, 8]} gap={6} wrap='wrap' justifyContent='center'>
+                            {charactersIsLoading &&
+                                Array(episode.characters.length)
+                                    .fill(0)
+                                    .map((_, index) => <CharacterCardSkeleton key={'s' + index} />)}
+
                             {characters?.map((character) => (
                                 <CharacterCard key={character.id} character={character} />
                             ))}

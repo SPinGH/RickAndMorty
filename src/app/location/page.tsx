@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 import { getLocations } from '@/entities/Location';
 import { PaginationParams } from '@/shared/model';
 
@@ -8,7 +10,7 @@ interface PageProps {
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-    const data = await getLocations(searchParams);
+    const data = await getLocations(searchParams).catch(notFound);
 
     return <LocationsPage data={data} params={searchParams} />;
 };
