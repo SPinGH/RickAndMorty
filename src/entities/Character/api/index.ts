@@ -5,18 +5,18 @@ import { Character } from '../model';
 import { Filters } from '../model/Filters';
 
 type GetCharacters = {
-    (params: PaginationParams<Filters>): Promise<PaginationResponse<Character>>;
-    (ids: string): Promise<Character[]>;
+    (params: PaginationParams<Filters>): Promise<PaginationResponse<Character> | null>;
+    (ids: string): Promise<Character[] | null>;
 };
 
 export const getCharacters = (async (params: PaginationParams<Filters> | string) => {
     if (typeof params === 'string') {
-        return (await api.get<Character[]>(`/character/${params}`)).data;
+        return await api<Character[]>(`/character/${params}`);
     }
 
-    return (await api.get<PaginationResponse<Character>>('/character/', { params })).data;
+    return await api<PaginationResponse<Character>>('/character/', params);
 }) as GetCharacters;
 
 export const getCharacter = async (id: string) => {
-    return (await api.get<Character>(`/character/${id}`)).data;
+    return await api<Character>(`/character/${id}`);
 };

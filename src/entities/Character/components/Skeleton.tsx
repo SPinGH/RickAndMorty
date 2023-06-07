@@ -6,7 +6,6 @@ const CharacterCardSkeleton = () => (
     <Card
         direction={['column', 'row']}
         overflow='hidden'
-        width={['100%', null, '550px']}
         height={['auto', '220px']}
         bg={useColorModeValue('gray.100', 'gray.600')}>
         <Skeleton height='220px' aspectRatio={1} />

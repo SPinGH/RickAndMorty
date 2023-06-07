@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Flex, Heading, List, ListItem, SimpleGrid, Stack } from '@chakra-ui/react';
+import { Box, Container, Flex, Heading, List, ListItem, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
 
@@ -20,46 +20,62 @@ const LocationPage: FC<LocationPageProps> = (props) => {
         initialData: props.location,
     });
     const { data: residents, isLoading: residentsIsLoading } = useQuery({
-        queryKey: ['locationResidents', location.id],
-        queryFn: () => getCharacters(getIdsFromUrls(location.residents)),
-        enabled: location && location.residents.length !== 0,
+        queryKey: ['locationResidents', location?.id],
+        queryFn: () => getCharacters(getIdsFromUrls(location?.residents ?? [''])),
+        enabled: !!location && location.residents.length !== 0,
     });
 
-    return (
-        <Container maxW='container.xl'>
-            <Stack spacing={8}>
-                <Stack spacing={8}>
-                    <Heading as='h1' size='4xl'>
-                        {location.name}
-                    </Heading>
-                    <SimpleGrid fontSize='xl' templateColumns='auto 1fr' spacing={8}>
-                        <List fontWeight='semibold' spacing={2}>
-                            <ListItem>Type</ListItem>
-                            <ListItem>Dimension</ListItem>
-                        </List>
-                        <List spacing={2}>
-                            <ListItem>{location.type}</ListItem>
-                            <ListItem>{location.dimension}</ListItem>
-                        </List>
-                    </SimpleGrid>
-                </Stack>
-                {location.residents.length !== 0 && (
-                    <>
-                        <Heading size='xl'>Residents</Heading>
-                        <Flex pb={[4, 6, 8]} gap={6} wrap='wrap' justifyContent='center'>
-                            {residentsIsLoading &&
-                                Array(location.residents.length)
-                                    .fill(0)
-                                    .map((_, index) => <CharacterCardSkeleton key={'s' + index} />)}
+    if (!location) return null;
 
-                            {residents?.map((character) => (
-                                <CharacterCard key={character.id} character={character} />
-                            ))}
-                        </Flex>
-                    </>
-                )}
-            </Stack>
-        </Container>
+    return (
+        <Box as='main' mb={8}>
+            <Container maxW='container.xl'>
+                <Stack spacing={8}>
+                    <Stack spacing={8}>
+                        <Heading as='h1' size={['2xl', '3xl', '4xl']}>
+                            {location.name}
+                        </Heading>
+                        <SimpleGrid
+                            as='dl'
+                            fontSize='xl'
+                            templateColumns={['auto', 'auto 1fr']}
+                            columnGap={8}
+                            rowGap={[0, 2]}>
+                            <Text as='dt' fontWeight='semibold'>
+                                Type
+                            </Text>
+                            <Text as='dd'>{location.type}</Text>
+
+                            <Text as='dt' fontWeight='semibold'>
+                                Dimension
+                            </Text>
+                            <Text as='dd'>{location.dimension}</Text>
+                        </SimpleGrid>
+                    </Stack>
+                    {location.residents.length !== 0 && (
+                        <>
+                            <Heading size='xl'>Residents</Heading>
+                            <SimpleGrid as={List} gap={6} minChildWidth='min(550px, 100%)' justifyContent='center'>
+                                {residentsIsLoading &&
+                                    Array(location.residents.length)
+                                        .fill(0)
+                                        .map((_, index) => (
+                                            <ListItem key={'s' + index}>
+                                                <CharacterCardSkeleton />
+                                            </ListItem>
+                                        ))}
+
+                                {residents?.map((character) => (
+                                    <ListItem key={character.id}>
+                                        <CharacterCard key={character.id} character={character} />
+                                    </ListItem>
+                                ))}
+                            </SimpleGrid>
+                        </>
+                    )}
+                </Stack>
+            </Container>
+        </Box>
     );
 };
 

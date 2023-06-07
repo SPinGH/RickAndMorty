@@ -21,16 +21,18 @@ const EpisodesPage: FC<EpisodesPageProps> = (props) => {
         initialData: props.data,
     });
 
+    if (!data) return null;
+
     return (
         <Box as='main' mb={8}>
             <Container maxW='container.xl'>
-                <Stack as={List} pb={[4, 6, 8]}>
+                <SimpleGrid as={List} pb={[4, 6, 8]} gap='4' minChildWidth='min(550px, 100%)'>
                     {data.results?.map((episode) => (
                         <ListItem key={episode.id}>
                             <EpisodeCard episode={episode} />
                         </ListItem>
                     ))}
-                </Stack>
+                </SimpleGrid>
                 <Pagination page={Number(props.params.page ?? '1')} info={data.info} />
             </Container>
         </Box>

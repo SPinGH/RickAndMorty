@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Container, Flex } from '@chakra-ui/react';
+import { Box, Container, List, ListItem, SimpleGrid } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
 
@@ -23,15 +23,19 @@ const CharactersPage: FC<CharactersPageProps> = (props) => {
         initialData: props.data,
     });
 
+    if (!data) return null;
+
     return (
         <Box as='main' mb={8}>
             <Container maxW='container.xl'>
                 <Filters params={props.params} />
-                <Flex py={[4, 6, 8]} gap={6} wrap='wrap' justifyContent='center'>
+                <SimpleGrid as={List} py={[4, 6, 8]} gap='4' minChildWidth='min(550px, 100%)'>
                     {data.results?.map((character) => (
-                        <CharacterCard key={character.id} character={character} />
+                        <ListItem key={character.id}>
+                            <CharacterCard character={character} />
+                        </ListItem>
                     ))}
-                </Flex>
+                </SimpleGrid>
                 <Pagination page={Number(props.params.page ?? '1')} info={data.info} />
             </Container>
         </Box>

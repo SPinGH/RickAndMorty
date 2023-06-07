@@ -1,6 +1,6 @@
 'use client';
 
-import { HStack, Select, Text } from '@chakra-ui/react';
+import { FormControl, FormLabel, HStack, Select, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FC } from 'react';
 
@@ -23,24 +23,24 @@ const Filters: FC<FiltersProps> = ({ params }) => {
     const onGenderChange = (event: ChangeEvent<HTMLSelectElement>) => setFilters({ gender: event.currentTarget.value });
 
     return (
-        <HStack spacing={4}>
-            <HStack alignItems='center'>
-                <Text>Status:</Text>
+        <HStack as='form' spacing={4} width='fit-content'>
+            <FormControl display='flex' alignItems='center'>
+                <FormLabel my={0}>Status:</FormLabel>
                 <Select placeholder='Select status' onChange={onStatusChange} value={params.status}>
                     <option value='alive'>Alive</option>
                     <option value='dead'>Dead</option>
                     <option value='unknown'>unknown</option>
                 </Select>
-            </HStack>
-            <HStack alignItems='center'>
-                <Text>Gender:</Text>
+            </FormControl>
+            <FormControl display='flex' alignItems='center'>
+                <FormLabel my={0}>Gender:</FormLabel>
                 <Select placeholder='Select gender' onChange={onGenderChange} value={params.gender}>
                     <option value='Female'>Female</option>
                     <option value='Male'>Male</option>
                     <option value='Genderless'>Genderless</option>
                     <option value='unknown'>unknown</option>
                 </Select>
-            </HStack>
+            </FormControl>
         </HStack>
     );
 };

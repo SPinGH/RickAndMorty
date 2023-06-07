@@ -10,6 +10,8 @@ import {
     HStack,
     IconButton,
     Link,
+    List,
+    ListItem,
     Show,
     Stack,
     StackProps,
@@ -42,23 +44,22 @@ const Header: FC = () => {
                                 filter={isLightMode ? undefined : 'invert(1)'}
                             />
                         </NextLink>
-                        <Show above='md'>
+                        <Box display={['none', null, 'block']}>
                             <Nav direction='row' />
-                        </Show>
+                        </Box>
                     </HStack>
                     <HStack alignItems='center' spacing={4}>
-                        <Show below='md'>
-                            <IconButton
-                                onClick={onToggle}
-                                icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
-                                aria-label='Toggle Navigation'
-                            />
-                        </Show>
+                        <IconButton
+                            onClick={onToggle}
+                            icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
+                            display={['block', null, 'none']}
+                            aria-label={`${isOpen ? 'Close' : 'Open'} navigation`}
+                        />
 
                         <IconButton
                             onClick={toggleColorMode}
                             icon={isLightMode ? <MoonIcon /> : <SunIcon />}
-                            aria-label='Toggle Color Mode'
+                            aria-label={`Set ${isLightMode ? 'dark' : 'light'} color mode`}
                         />
                     </HStack>
                 </Flex>
@@ -71,17 +72,26 @@ const Header: FC = () => {
 };
 
 const Nav = ({ direction }: { direction: StackProps['direction'] }) => (
-    <Stack direction={direction} alignItems='center' spacing={4}>
-        <Link as={NextLink} href={CHARACTER_ROUTE}>
-            Characters
-        </Link>
-        <Link as={NextLink} href={LOCATION_ROUTE}>
-            Locations
-        </Link>
-        <Link as={NextLink} href={EPISODE_ROUTE}>
-            Episodes
-        </Link>
-    </Stack>
+    <nav>
+        <Stack as={List} direction={direction} alignItems='center' spacing={4}>
+            <ListItem>
+                <Link as={NextLink} href={CHARACTER_ROUTE}>
+                    Characters
+                </Link>
+            </ListItem>
+            <ListItem>
+                <Link as={NextLink} href={LOCATION_ROUTE}>
+                    Locations
+                </Link>
+            </ListItem>
+
+            <ListItem>
+                <Link as={NextLink} href={EPISODE_ROUTE}>
+                    Episodes
+                </Link>
+            </ListItem>
+        </Stack>
+    </nav>
 );
 
 export default Header;

@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Container, List, ListItem, Stack } from '@chakra-ui/react';
+import { Box, Container, List, ListItem, SimpleGrid, Stack } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
 
@@ -21,16 +21,18 @@ const LocationsPage: FC<LocationsPageProps> = (props) => {
         initialData: props.data,
     });
 
+    if (!data) return null;
+
     return (
         <Box as='main' mb={8}>
             <Container maxW='container.xl'>
-                <Stack as={List} pb={[4, 6, 8]}>
+                <SimpleGrid as={List} pb={[4, 6, 8]} gap='4' minChildWidth='min(550px, 100%)'>
                     {data.results?.map((location) => (
                         <ListItem key={location.id}>
                             <LocationCard location={location} />
                         </ListItem>
                     ))}
-                </Stack>
+                </SimpleGrid>
                 <Pagination page={Number(props.params.page ?? '1')} info={data.info} />
             </Container>
         </Box>

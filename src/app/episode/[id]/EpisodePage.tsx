@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Flex, Heading, List, ListItem, SimpleGrid, Stack } from '@chakra-ui/react';
+import { Container, Flex, Heading, List, ListItem, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
 
@@ -19,43 +19,58 @@ const EpisodePage: FC<EpisodePageProps> = (props) => {
         queryFn: () => getEpisode(props.episode.id.toString()),
         initialData: props.episode,
     });
+
     const { data: characters, isLoading: charactersIsLoading } = useQuery({
-        queryKey: ['episodeCharacters', episode.id],
-        queryFn: () => getCharacters(getIdsFromUrls(episode.characters)),
-        enabled: episode && episode.characters.length !== 0,
+        queryKey: ['episodeCharacters', episode?.id],
+        queryFn: () => getCharacters(getIdsFromUrls(episode?.characters ?? [''])),
+        enabled: !!episode && episode.characters.length !== 0,
     });
+
+    if (!episode) return null;
 
     return (
         <Container maxW='container.xl'>
             <Stack spacing={8}>
                 <Stack spacing={8}>
-                    <Heading as='h1' size='4xl'>
+                    <Heading as='h1' size={['2xl', '3xl', '4xl']}>
                         {episode.name}
                     </Heading>
-                    <SimpleGrid fontSize='xl' templateColumns='auto 1fr' spacing={8}>
-                        <List fontWeight='semibold' spacing={2}>
-                            <ListItem>Code</ListItem>
-                            <ListItem>Air date</ListItem>
-                        </List>
-                        <List spacing={2}>
-                            <ListItem>{episode.episode}</ListItem>
-                            <ListItem>{episode.air_date}</ListItem>
-                        </List>
+                    <SimpleGrid
+                        as='dl'
+                        fontSize='xl'
+                        templateColumns={['auto', 'auto 1fr']}
+                        columnGap={8}
+                        rowGap={[0, 2]}>
+                        <Text as='dt' fontWeight='semibold'>
+                            Code
+                        </Text>
+                        <Text as='dd'>{episode.episode}</Text>
+
+                        <Text as='dt' fontWeight='semibold'>
+                            Air date
+                        </Text>
+                        <Text as='dd'>{episode.air_date}</Text>
                     </SimpleGrid>
                 </Stack>
                 {episode.characters.length !== 0 && (
                     <>
                         <Heading size='xl'>Characters</Heading>
-                        <Flex pb={[4, 6, 8]} gap={6} wrap='wrap' justifyContent='center'>
+                        <SimpleGrid as={List} gap={6} minChildWidth='min(550px, 100%)' justifyContent='center'>
                             {charactersIsLoading &&
                                 Array(episode.characters.length)
                                     .fill(0)
-                                    .map((_, index) => <CharacterCardSkeleton key={'s' + index} />)}
+                                    .map((_, index) => (
+                                        <ListItem key={'s' + index}>
+                                            <CharacterCardSkeleton />
+                                        </ListItem>
+                                    ))}
 
                             {characters?.map((character) => (
-                                <CharacterCard key={character.id} character={character} />
+                                <ListItem key={character.id}>
+                                    <CharacterCard character={character} />
+                                </ListItem>
                             ))}
-                        </Flex>
+                        </SimpleGrid>
                     </>
                 )}
             </Stack>

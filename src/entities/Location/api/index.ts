@@ -4,9 +4,9 @@ import { PaginationParams, PaginationResponse } from '@/shared/model';
 import { Location } from '../model';
 
 export const getLocations = async (params: PaginationParams<{}>) => {
-    return (await api.get<PaginationResponse<Location>>('/location/', { params })).data;
+    return await api<PaginationResponse<Location>>('/location/', { params });
 };
 
 export const getLocation = async (id: string) => {
-    return (await api.get<Location>(`/location/${id}`)).data;
+    return await api<Location>(`/location/${id}`);
 };

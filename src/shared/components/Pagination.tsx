@@ -14,7 +14,11 @@ interface PaginationProps {
 }
 
 const getButtons = (page: number, lastPage: number) => {
-    if (page <= 3) return [1, 2, 3, 4, null, lastPage];
+    if (lastPage <= 5)
+        return Array(lastPage)
+            .fill(0)
+            .map((_, index) => index + 1);
+    else if (page <= 3) return [1, 2, 3, 4, null, lastPage];
     else if (page >= lastPage - 2) return [1, null, lastPage - 3, lastPage - 2, lastPage - 1, lastPage];
     else return [1, null, page - 1, page, page + 1, null, lastPage];
 };
@@ -44,6 +48,7 @@ const Pagination: FC<PaginationProps> = ({ page, info }) => {
     return (
         <Flex justifyContent='center' alignItems='center' gap={2}>
             <IconButton
+                size={['sm', 'md']}
                 icon={<ChevronLeftIcon />}
                 onClick={onPrevClick}
                 isDisabled={page === 1}
@@ -55,6 +60,7 @@ const Pagination: FC<PaginationProps> = ({ page, info }) => {
                 value ? (
                     <Button
                         key={index}
+                        size={['sm', 'md']}
                         onClick={onPageClick}
                         value={value}
                         variant={value === page ? 'solid' : 'outline'}>
@@ -65,6 +71,7 @@ const Pagination: FC<PaginationProps> = ({ page, info }) => {
                 )
             )}
             <IconButton
+                size={['sm', 'md']}
                 icon={<ChevronRightIcon />}
                 onClick={onNextClick}
                 isDisabled={page === info.pages}
